@@ -1,0 +1,55 @@
+name: Build XMPlay Plugin
+
+on:
+  push:
+    branches:
+      - 'xmp-ssf'
+  pull_request:
+    branches:
+      - 'xmp-ssf'
+
+jobs:
+  build-xmplay:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        platform: [Win32]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: 'latest'
+
+      - name: Build XMPlay plugin (Release - ${{ matrix.platform }})
+        run: |
+          msbuild xmplay/xmp-ssf.vcxproj `
+            /p:Configuration=Release `
+            /p:Platform=${{ matrix.platform }} `
+            /m
+        shell: pwsh
+
+      - name: Verify XMPlay build output
+        run: |
+          $dllPath = "xmplay/bin/Release/Win32/xmp-ssf.dll"
+          if (Test-Path $dllPath) {
+            Write-Host "✓ XMPlay build OK: $dllPath"
+            Get-Item $dllPath | Format-List FullName, Length, LastWriteTime
+          } else {
+            Write-Host "✗ XMPlay build failed: DLL not found at $dllPath"
+            exit 1
+          }
+        shell: pwsh
+
+      - name: Upload XMPlay artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xmp-ssf-${{ matrix.platform }}
+          path: xmplay/bin/Release/Win32/xmp-ssf.dll
+          if-no-files-found: error
