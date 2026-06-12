@@ -1,0 +1,70 @@
+name: Build XMPlay Plugin
+
+on:
+  push:
+    branches:
+      - 'xmp-ssf'
+  pull_request:
+    branches:
+      - 'xmp-ssf'
+
+jobs:
+  build-xmplay:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        platform: [Win32]
+
+    steps:
+      # ---------------------------------------------------------
+      # 1. リポジトリをチェックアウト（クリーン）
+      # ---------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          clean: true
+
+      # ---------------------------------------------------------
+      # 2. MSBuild セットアップ
+      # ---------------------------------------------------------
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: 'latest'
+
+      # ---------------------------------------------------------
+      # 3. XMPlay プラグインビルド
+      # ---------------------------------------------------------
+      - name: Build XMPlay plugin (Release - ${{ matrix.platform }})
+        run: |
+          msbuild XMPlay/xmp-ssf.vcxproj `
+            /p:Configuration=Release `
+            /p:Platform=${{ matrix.platform }} `
+            /m
+        shell: pwsh
+
+      # ---------------------------------------------------------
+      # 4. 出力確認
+      # ---------------------------------------------------------
+      - name: Verify XMPlay build output
+        run: |
+          $dllPath = "XMPlay/bin/Release/Win32/xmp-ssf.dll"
+          if (Test-Path $dllPath) {
+            Write-Host "✓ XMPlay build OK: $dllPath"
+            Get-Item $dllPath | Format-List FullName, Length, LastWriteTime
+          } else {
+            Write-Host "✗ XMPlay build failed: DLL not found at $dllPath"
+            exit 1
+          }
+        shell: pwsh
+
+      # ---------------------------------------------------------
+      # 5. アーティファクトアップロード
+      # ---------------------------------------------------------
+      - name: Upload XMPlay artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xmp-ssf-${{ matrix.platform }}
+          path: XMPlay/bin/Release/Win32/xmp-ssf.dll
+          if-no-files-found: error
