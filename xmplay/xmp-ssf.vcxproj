@@ -1,0 +1,107 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- 対応構成 -->
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <!-- プロジェクト基本情報 -->
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A1B2C3D4-E5F6-47A8-9ABC-1234567890AB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>xmp_ssf</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <!-- Release / Win32 設定 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+
+    <!-- DLL 出力先 -->
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
+    <TargetName>xmp-ssf</TargetName>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <!-- コンパイル設定 -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+
+      <!-- Core 用マクロ -->
+      <PreprocessorDefinitions>
+        EMU_COMPILE;
+        EMU_LITTLE_ENDIAN;
+        HAVE_STDINT_H;
+        USE_M68K;
+        LSB_FIRST;
+        HAVE_MPROTECT;
+        WIN32;
+        NDEBUG;
+        %(PreprocessorDefinitions)
+      </PreprocessorDefinitions>
+
+      <!-- インクルードパス -->
+      <AdditionalIncludeDirectories>
+        $(ProjectDir);
+        $(ProjectDir)..\Core;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+
+  </ItemDefinitionGroup>
+
+  <!-- ソースファイル -->
+  <ItemGroup>
+    <!-- XMPlay プラグイン本体 -->
+    <ClCompile Include="xmp-ssf.cpp" />
+
+    <!-- Core ソース -->
+    <ClCompile Include="..\Core\sega.c" />
+    <ClCompile Include="..\Core\satsound.c" />
+    <ClCompile Include="..\Core\dcsound.c" />
+    <ClCompile Include="..\Core\yam.c" />
+    <ClCompile Include="..\Core\arm.c" />
+
+    <!-- m68k -->
+    <ClCompile Include="..\Core\m68k\m68kcpu.c" />
+    <ClCompile Include="..\Core\m68k\m68kops.c" />
+    <ClCompile Include="..\Core\m68k\m68k_in.c" />
+  </ItemGroup>
+
+  <!-- ヘッダファイル -->
+  <ItemGroup>
+    <ClInclude Include="xmpin.h" />
+    <ClInclude Include="..\Core\sega.h" />
+    <ClInclude Include="..\Core\satsound.h" />
+    <ClInclude Include="..\Core\dcsound.h" />
+    <ClInclude Include="..\Core\yam.h" />
+    <ClInclude Include="..\Core\arm.h" />
+    <ClInclude Include="..\Core\m68k\m68k.h" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+</Project>
