@@ -94,12 +94,18 @@
   <!-- ヘッダファイル -->
   <ItemGroup>
     <ClInclude Include="xmpin.h" />
+
     <ClInclude Include="..\Core\sega.h" />
     <ClInclude Include="..\Core\satsound.h" />
     <ClInclude Include="..\Core\dcsound.h" />
     <ClInclude Include="..\Core\yam.h" />
     <ClInclude Include="..\Core\arm.h" />
+
+    <!-- m68k headers -->
     <ClInclude Include="..\Core\m68k\m68k.h" />
+    <ClInclude Include="..\Core\m68k\m68kcpu.h" />
+    <ClInclude Include="..\Core\m68k\m68kops.h" />
+    <ClInclude Include="..\Core\m68k\m68k_in.h" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
