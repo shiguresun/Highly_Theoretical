@@ -7,33 +7,20 @@
 extern "C" {
 #endif
 
-/* ------------------------------------------------------------
- * PCM format constants
- * ------------------------------------------------------------ */
 #define XMP_FORMAT_INT16   1
 #define XMP_FORMAT_FLOAT   2
 
-/* ------------------------------------------------------------
- * File info structure
- * ------------------------------------------------------------ */
 typedef struct {
-    int rate;       /* sample rate (Hz) */
-    int chan;       /* number of channels */
-    int format;     /* XMP_FORMAT_xxx */
-    int length;     /* length in ms (or -1 if unknown) */
+    int rate;
+    int chan;
+    int format;
+    int length;
 } xmp_info_struct;
 
-/* ------------------------------------------------------------
- * Plugin flags
- * ------------------------------------------------------------ */
-#define XMPIN_FLAG_SUBSONGS   1   /* plugin supports subsongs */
+#define XMPIN_FLAG_SUBSONGS   1
 
-/* ------------------------------------------------------------
- * XMPlay input plugin structure
- * ------------------------------------------------------------ */
 typedef struct {
     unsigned int flags;
-
     const char *description;
 
     BOOL (WINAPI *GetSubSongs)(char *filename, int *length);
@@ -47,4 +34,4 @@ typedef struct {
 }
 #endif
 
-#endif /* XMPIN_H */
+#endif
