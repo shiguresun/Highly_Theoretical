@@ -106,6 +106,12 @@
     <ClInclude Include="..\Core\m68k\m68kcpu.h" />
     <ClInclude Include="..\Core\m68k\m68kops.h" />
     <ClInclude Include="..\Core\m68k\m68k_in.h" />
+
+    <!-- ARM core -->
+    <ClCompile Include="..\Core\arm.c" />
+    <ClCompile Include="..\Core\arm7.c" />
+    <ClCompile Include="..\Core\arm7exec.c" />
+    <ClCompile Include="..\Core\arm7ops.c" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
