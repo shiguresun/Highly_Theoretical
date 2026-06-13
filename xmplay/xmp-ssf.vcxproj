@@ -83,12 +83,17 @@
     <ClCompile Include="..\Core\satsound.c" />
     <ClCompile Include="..\Core\dcsound.c" />
     <ClCompile Include="..\Core\yam.c" />
-    <ClCompile Include="..\Core\arm.c" />
 
     <!-- m68k -->
     <ClCompile Include="..\Core\m68k\m68kcpu.c" />
     <ClCompile Include="..\Core\m68k\m68kops.c" />
     <ClCompile Include="..\Core\m68k\m68k_in.c" />
+
+    <!-- ARM core -->
+    <ClCompile Include="..\Core\arm.c" />
+    <ClCompile Include="..\Core\arm7.c" />
+    <ClCompile Include="..\Core\arm7exec.c" />
+    <ClCompile Include="..\Core\arm7ops.c" />
   </ItemGroup>
 
   <!-- ヘッダファイル -->
@@ -99,7 +104,6 @@
     <ClInclude Include="..\Core\satsound.h" />
     <ClInclude Include="..\Core\dcsound.h" />
     <ClInclude Include="..\Core\yam.h" />
-    <ClInclude Include="..\Core\arm.h" />
 
     <!-- m68k headers -->
     <ClInclude Include="..\Core\m68k\m68k.h" />
@@ -107,11 +111,11 @@
     <ClInclude Include="..\Core\m68k\m68kops.h" />
     <ClInclude Include="..\Core\m68k\m68k_in.h" />
 
-    <!-- ARM core -->
-    <ClCompile Include="..\Core\arm.c" />
-    <ClCompile Include="..\Core\arm7.c" />
-    <ClCompile Include="..\Core\arm7exec.c" />
-    <ClCompile Include="..\Core\arm7ops.c" />
+    <!-- ARM headers -->
+    <ClInclude Include="..\Core\arm.h" />
+    <ClInclude Include="..\Core\arm7.h" />
+    <ClInclude Include="..\Core\arm7exec.h" />
+    <ClInclude Include="..\Core\arm7ops.h" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
